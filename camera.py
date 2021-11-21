@@ -1,7 +1,7 @@
 import picamera as pic
 import time
-def takePic():
-    loc=['/home/pi/Desktop/image/image.jpg']
+def takePic(loc):
+    # loc=['/home/pi/Desktop/image/image.jpg']
     camera = pic.PiCamera()
     #camera.brightness = 58 밝기 (0~100) 
     #camera.sharpness = 10 
@@ -10,9 +10,9 @@ def takePic():
     camera.start_preview()
     time.sleep(5)
     camera.rotation = 180
-    camera.capture(loc[0])
+    camera.capture(loc)
     camera.stop_preview()
 
-    return loc[0]
+    return loc
 
 

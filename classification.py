@@ -5,17 +5,17 @@ import torchvision.transforms as transforms
 from PIL import Image
 from torch.utils.data import Dataset,DataLoader
 import torch.nn as nn
- from camera import takePic
- import picamera as pic
- import time
+from camera import takePic
+import picamera as pic
+import time
 
-def Result():
+def Result(w_path):
     num_class=4
 
     model=models.mobilenet_v2(pretrained=True)
     model.classifier=nn.Linear(1280,num_class)
 
-    model.load_state_dict(torch.load('/home/pi/Desktop/MobileNet_cpu.pt'))
+    model.load_state_dict(torch.load(w_path))
 
 
     trans_test = transforms.Compose([
@@ -45,9 +45,9 @@ def Result():
             return tensor_image
 
 
-     test_data = CustomDataSet(takePic(), transform=trans_test)
+    test_data = CustomDataSet(takePic('/home/pi/Desktop/image/image.jpg'), transform=trans_test)
 #    test_data = CustomDataSet('/home/pi/Desktop/image/', transform=trans_test)
-    test_set = DataLoader(dataset = test_data, batch_size = 3)
+    test_set = DataLoader(dataset = test_data, batch_size = 1)
 
     result =[]
 
@@ -61,4 +61,4 @@ def Result():
             
         print(result[0])
 
-    return result[0]
+    return result[0] # result = [[label]], result[0] = [label]
